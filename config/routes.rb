@@ -1,5 +1,6 @@
 TddRailsExercise::Application.routes.draw do
   root 'static_pages#search'
+  post 'results' => 'static_pages#results'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
