@@ -15,9 +15,7 @@ describe "StaticPages" do
 
     it "submitting the form takes to results page" do
       visit root_path
-      fill_in "from", with: "a"
-      fill_in "to", with: "a"
-      fill_in "date", with: "a"
+      fillup_form
       click_button "Search"
       expect(page).to have_content 'Results'
     end
