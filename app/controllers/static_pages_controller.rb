@@ -1,7 +1,8 @@
 class StaticPagesController < ApplicationController
-  def search
+  def home
   end
 
-  def results
+  def search
+    sleep(10)
   end
 end
