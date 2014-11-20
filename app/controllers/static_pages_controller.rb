@@ -1,4 +1,6 @@
 class StaticPagesController < ApplicationController
+  @@results ||= []
+  attr_reader :ticket_results
 
   def home
   end
@@ -17,18 +19,17 @@ class StaticPagesController < ApplicationController
   end
 
   def results
+    @ticket_results = @@results
     end_thread
-    puts @@results
   end
 
   private
-    def perform_search
-      @@results = Tickets.find(1)
+    def perform_search(params)
+      @@results = Tickets.where(:from => [params["from"]])
     end
 
     def start_thread(params)
-      perform_search
-      @@new_thread = Thread.new{ make_thread_sleep }
+      @@new_thread = Thread.new{ search_and_sleep(params) }
     end
 
     def end_thread
@@ -39,7 +40,8 @@ class StaticPagesController < ApplicationController
       @@new_thread.status == "sleep"
     end
 
-    def make_thread_sleep
-      sleep(10)
+    def search_and_sleep(params)
+      perform_search(params)
+      sleep(1)
     end
 end
