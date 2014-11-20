@@ -4,7 +4,7 @@ class StaticPagesController < ApplicationController
   end
 
   def search
-    start_thread
+    start_thread(params)
     render "search"
   end
 
@@ -18,11 +18,17 @@ class StaticPagesController < ApplicationController
 
   def results
     end_thread
+    puts @@results
   end
 
   private
-    def start_thread
-      @@new_thread = Thread.new{ go_look_for_stuff }
+    def perform_search
+      @@results = Tickets.find(1)
+    end
+
+    def start_thread(params)
+      perform_search
+      @@new_thread = Thread.new{ make_thread_sleep }
     end
 
     def end_thread
@@ -33,8 +39,7 @@ class StaticPagesController < ApplicationController
       @@new_thread.status == "sleep"
     end
 
-    def go_look_for_stuff
+    def make_thread_sleep
       sleep(10)
-      puts "I am supposed to be doing search but I make people wait and output to console"
     end
 end
