@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+Tickets.create!(from: "Bangalore", to: "Delhi", date: (Time.now + 864000))
+Tickets.create!(from: "Bangalore", to: "Chennai", date: (Time.now + 864000))
+Tickets.create!(from: "Bangalore", to: "Kolkata", date: (Time.now + 864000))
+Tickets.create!(from: "Bangalore", to: "Mumbai", date: (Time.now + 864000))
+Tickets.create!(from: "Kolkata", to: "Bangalore", date: (Time.now + 864000))
+Tickets.create!(from: "Jaipur", to: "Bangalore", date: (Time.now + 864000))
