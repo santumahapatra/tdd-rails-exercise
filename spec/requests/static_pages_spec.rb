@@ -10,14 +10,13 @@ describe "StaticPages" do
     it "has the right content" do
       visit root_path
       expect(page).to have_content 'Search'
-      expect(page).to have_content 'Loading.....'
     end
 
-    it "submitting the form takes to results page" do
+    it "submitting the form takes to search page" do
       visit root_path
       fillup_form
       click_button "Search"
-      expect(page).to have_content 'Results'
+      expect(page).to have_content 'searching'
     end
   end
 end
