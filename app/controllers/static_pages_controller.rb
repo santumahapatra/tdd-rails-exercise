@@ -12,7 +12,7 @@ class StaticPagesController < ApplicationController
     if thread_sleeping?
       render 'search'
     else
-      render 'results'
+      redirect_to results_path
     end
   end
 

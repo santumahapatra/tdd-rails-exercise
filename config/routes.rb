@@ -3,6 +3,7 @@ TddRailsExercise::Application.routes.draw do
   get 'search' => 'static_pages#home'
   post 'search' => 'static_pages#search'
   get 'results' => 'static_pages#results'
+  get 'status' => 'static_pages#status'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
