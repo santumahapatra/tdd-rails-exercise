@@ -1,17 +1,18 @@
 class StaticPagesController < ApplicationController
-  @@results ||= []
-  attr_reader :ticket_results
 
   def home
   end
 
   def search
-    start_thread(params)
+    session[:name] = construct_session_name
+    search_object = SearchManager.new(params, session[:name])
+    search_object.initiate_search
     render "search"
   end
 
   def status
-    if thread_sleeping?
+    search_object = get_search_object(session[:name])
+    if search_object.thread_alive?
       render 'search'
     else
       redirect_to results_path
@@ -19,29 +20,29 @@ class StaticPagesController < ApplicationController
   end
 
   def results
-    @ticket_results = @@results
-    end_thread
+    search_object = get_search_object(session[:name])
+    @ticket_results = search_object.search_results
+    search_object.end_thread
   end
 
   private
-    def perform_search(params)
-      @@results = Tickets.where(:from => [params["from"]])
+    def construct_session_name
+      session_string(random_number, time_stamp)
     end
 
-    def start_thread(params)
-      @@new_thread = Thread.new{ search_and_sleep(params) }
+    def random_number
+      random_number = Random.rand(10000) + 50
     end
 
-    def end_thread
-      @@new_thread.join
+    def time_stamp
+      time_stamp = Time.now.to_i
     end
 
-    def thread_sleeping?
-      @@new_thread.status == "sleep"
+    def session_string(random_number, time_stamp)
+      "#{random_number}#{time_stamp}"
     end
 
-    def search_and_sleep(params)
-      perform_search(params)
-      sleep(1)
+    def get_search_object(session_name)
+      ObjectSpace.each_object(SearchManager).detect { |klass| klass.name?(session_name) }
     end
 end
